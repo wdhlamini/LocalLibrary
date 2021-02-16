@@ -145,7 +145,7 @@ exports.author_update_get = function(req, res) {
 		//author find by .id
 		Author.findById(req.params.id, {}, function (err,theauthor) { //find author by ID we can reference author by their object
                 if (err) { return next(err); }
-                   // Successful - redirect to book detail page.
+                   // Successful - redirect to author detail page.
                    res.render('author_form', { title: 'Update Author', author: theauthor});
 				   //146: find author by their id, and then if found, ref author obj using "theauthor"
 				   //then want to render author form passing in the author obj
