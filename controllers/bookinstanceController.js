@@ -30,8 +30,18 @@ exports.bookinstance_detail = function(req, res, next) {
           return next(err);
         }
       // Successful, so render.
-      res.render('bookinstance_detail', { title: 'Copy: '+bookinstance.book.title, bookinstance:  bookinstance});
-    })
+	  
+	  //***HAVE MISSING BOOK TITLES ORPHANED BOOK INSTANCES
+      //res.render('bookinstance_detail', { title: 'Copy: '+bookinstance.book.title, bookinstance:  bookinstance});
+		if (bookinstance.book.title==null)
+		//if (book==null)
+		{res.send('missing book');}
+		
+		else
+		{res.render('bookinstance_detail', { title: 'Copy: '+bookinstance.book.title, bookinstance:  bookinstance});}
+		
+	
+	})
 
 };
 
@@ -154,7 +164,7 @@ exports.bookinstance_update_get = function(req, res, next) {
     // Get book, authors and genres for form.
     async.parallel({
         bookinstance: function(callback) {
-            BookInstance.findById(req.params.id).populate('bookinstance').exec(callback);
+            BookInstance.findById(req.params.id).populate('bookinstance').exec(callback); //.populate book rather potentially
         },
         
         }, function(err, results) {
@@ -173,7 +183,7 @@ exports.bookinstance_update_get = function(req, res, next) {
                     //}
                 //}
             //}
-            res.render('bookinstance_form', { title: 'Update Book Instance', bookinstance: results.bookinstances });
+            res.render('bookinstance_form', { title: 'Update Book Instance', bookinstance: results.bookinstances, book_list: books });
         });
 
 };
