@@ -173,13 +173,14 @@ exports.book_delete_get = function(req, res, next) {
           Book.findById(req.params.id).exec(callback)
         },
         books_bookinstances: function(callback) {
-          BookInstance.find({ 'bookinstance': req.params.id }).exec(callback)
+          BookInstance.find({ 'book': req.params.id }).exec(callback)
         },
     }, function(err, results) {
         if (err) { return next(err); }
         if (results.book==null) { // No results.
             res.redirect('/catalog/books');
         }
+		//console.log('results.books_bookinstances: ' + results.books_bookinstances.length);
         // Successful, so render.
         res.render('book_delete', { title: 'Delete Book', book: results.book, books_bookinstances: results.books_bookinstances } );
     });
@@ -193,6 +194,9 @@ exports.book_delete_get = function(req, res, next) {
 
 // Handle Book delete on POST.
 exports.book_delete_post = function(req, res, next) {
+
+	console.log('request.body: ');
+	console.dir(req.body);
 
     async.parallel({
         book: function(callback) {

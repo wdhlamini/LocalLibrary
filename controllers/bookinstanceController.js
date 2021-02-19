@@ -234,7 +234,8 @@ exports.bookinstance_update_post = [
           { book: req.body.book,
             imprint: req.body.imprint,
             status: req.body.status,
-            due_back: req.body.due_back
+            due_back: req.body.due_back,
+			_id:req.params.id
            });
 
 
