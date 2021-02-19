@@ -33,12 +33,18 @@ exports.bookinstance_detail = function(req, res, next) {
 	  
 	  //***HAVE MISSING BOOK TITLES ORPHANED BOOK INSTANCES
       //res.render('bookinstance_detail', { title: 'Copy: '+bookinstance.book.title, bookinstance:  bookinstance});
-		if (bookinstance.book.title==null)
+		if (bookinstance.book==null)
 		//if (book==null)
 		{res.send('missing book');}
-		
+		//boolean bookexists. in the check instead bookexists==false
+		//in else, set bookexists==true
+		//render book instance detail, but also pass in the bookexists attribute 
+		//in the pug template, wrap everything in an if
+			//else, message missing book
+			//=>ideally, look and feel remains the same with menu on left but detail side has missing book
+			
 		else
-		{res.render('bookinstance_detail', { title: 'Copy: '+bookinstance.book.title, bookinstance:  bookinstance});}
+		{res.render('bookinstance_detail', { title: 'Copy: '+bookinstance.book.title, bookinstance:  bookinstance});} 
 		
 	
 	})
@@ -166,6 +172,9 @@ exports.bookinstance_update_get = function(req, res, next) {
         bookinstance: function(callback) {
             BookInstance.findById(req.params.id).populate('bookinstance').exec(callback); //.populate book rather potentially
         },
+		books: function(callback) {
+			Book.find({}, 'title').exec(callback);
+		},
         
         }, function(err, results) {
             if (err) { return next(err); }
@@ -183,7 +192,7 @@ exports.bookinstance_update_get = function(req, res, next) {
                     //}
                 //}
             //}
-            res.render('bookinstance_form', { title: 'Update Book Instance', bookinstance: results.bookinstances, book_list: books });
+            res.render('bookinstance_form', { title: 'Update Book Instance', bookinstance: results.bookinstance, book_list: results.books });
         });
 
 };
