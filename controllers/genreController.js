@@ -167,8 +167,8 @@ exports.genre_update_get = function(req, res, next) {
 
     // Get book, authors and genres for form.
     async.parallel({
-        genres: function(callback) {
-            Genre.find(callback);
+        genre: function(callback) {
+            Genre.findById(req.params.id).exec(callback)
         },
         
         
@@ -188,7 +188,7 @@ exports.genre_update_get = function(req, res, next) {
                     //}
                 //}
             //}
-            res.render('genre_form', { title: 'Update Genre', book: results.book });
+            res.render('genre_form', { title: 'Update Genre', genre: results.genre });
         });
 
 };
@@ -224,8 +224,9 @@ exports.genre_update_post = [
         
 		// Create a genre object with escaped and trimmed data.
 		var genre = new Genre(
-		  { name: req.body.name }
-		);
+		  { name: req.body.name, 
+		    _id:req.params.id 
+		  });
 
 		if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/error messages.
