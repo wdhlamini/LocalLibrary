@@ -195,8 +195,8 @@ exports.book_delete_get = function(req, res, next) {
 // Handle Book delete on POST.
 exports.book_delete_post = function(req, res, next) {
 
-	console.log('request.body: ');
-	console.dir(req.body);
+	//console.log('request.body: ');
+	//console.dir(req.body);
 
     async.parallel({
         book: function(callback) {
@@ -211,7 +211,7 @@ exports.book_delete_post = function(req, res, next) {
     }, function(err, results) {
         if (err) { return next(err); }
         // Success
-		console.log("results.books_bookinstances.length: " + results.books_bookinstances.length);
+		//console.log("results.books_bookinstances.length: " + results.books_bookinstances.length);
         if (results.books_bookinstances.length > 0) {
             // book has instances. Render in same way as for GET route.
             res.render('book_delete', { title: 'Delete Book', book: results.book, books_bookinstances: results.books_bookinstances } );
